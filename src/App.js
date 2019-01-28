@@ -4,6 +4,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Card from "./Card";
 import Box from "./Box";
+import Stencil from './Stencil';
 const update = require("immutability-helper");
 
 function CardList(props) {
@@ -13,8 +14,27 @@ function CardList(props) {
     const cardItems = cards.map(({type}) => {
         return <Card key={type} type={type} onAdd={onAdd} />
     })
+    return <VGroup width="120px" padding="1rem 0" horizontalAlign="center" gap={10}>{cardItems}</VGroup>;
+}
 
-    return <VGroup gap={10}>{cardItems}</VGroup>;
+
+function Stencils(props) {
+
+    const { stencils, onMove } = props;
+    
+    return (
+        <VGroup gap={10}>
+            {stencils.map((stencil, i) => (
+                <Stencil
+                    key={stencil.id}
+                    index={i}
+                    id={stencil.id}
+                    type={stencil.type}
+                    moveStencil={onMove}
+                />
+            ))}
+        </VGroup>
+    );
 }
 
 class App extends Component {
@@ -23,20 +43,19 @@ class App extends Component {
         stencils: [
           {
             id: 1,
-            text: "one"
+            type: "date"
           },
           {
             id: 2,
-            text: "two"
+            type: "input"
           },
           {
             id: 3,
-            text: "three"
+            type: "button"
           }
         ],
         cards: [
-            {type: 'number'},
-            {type: 'text'},
+            {type: 'input'},
             {type: 'date'},
             {type: 'button'}
         ]
@@ -63,7 +82,7 @@ class App extends Component {
         this.setState(
             update(this.state, {
                 stencils: {
-                    $push: [{id, text: type}]
+                    $push: [{id, type}]
                 }
             })
         )
@@ -72,9 +91,11 @@ class App extends Component {
 
     render() {
         return (
-            <HGroup gap={10}>
+            <HGroup gap={10} style={{ width: '100%'}} >
                 <CardList cards={this.state.cards}  onAdd={this.addCard}/>
-                <Box stencils={this.state.stencils}  onMove={this.handleMove} />
+                <Box>
+                    <Stencils stencils={this.state.stencils}  onMove={this.handleMove}  />
+                </Box>
             </HGroup>
         );
     }

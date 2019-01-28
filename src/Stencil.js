@@ -1,13 +1,13 @@
 import React from "react";
+import { Button, DatePicker, Input } from 'antd';
 import { findDOMNode } from "react-dom";
 import { DropTarget, DragSource } from "react-dnd";
 import ItemTypes from "./ItemTypes";
 
 const style = {
-  border: "1px dashed gray",
   padding: "0.5rem 1rem",
-  marginBottom: ".5rem",
-  backgroundColor: "white",
+  backgroundColor: "#e8e8e8",
+  borderRadius: '5px',
   cursor: "move"
 };
 
@@ -28,7 +28,7 @@ function sourceCollect(connect, monitor) {
 }
 
 const stencilTarget = {
-    
+
   hover(props, monitor, component) {
     if (!component) {
       return null;
@@ -64,13 +64,29 @@ function targetCollect(connect) {
   };
 }
 
+function getStencilByType(type) {
+
+    if (type === 'button') {
+        return <Button type="primary">我是一个按钮</Button>;
+    }
+
+    if (type === 'input') {
+        return <Input placeholder="请输入内容..."/>;
+    }
+
+    if (type === 'date') {
+        return <DatePicker />
+    }
+   
+}
+
 function Stencil(props) {
-  const { text, isDragging, connectDragSource, connectDropTarget } = props;
+  const { type, isDragging, connectDragSource, connectDropTarget } = props;
   const opacity = isDragging ? 0 : 1;
   const cursor = isDragging ? 'pointer' : 'move';
 
   return connectDragSource(
-    connectDropTarget(<div style={{ ...style, opacity, cursor }}>{text}</div>)
+    connectDropTarget(<div style={{ ...style, opacity, cursor }}>{ getStencilByType(type) }</div>)
   );
 }
 

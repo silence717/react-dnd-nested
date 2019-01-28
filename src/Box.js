@@ -1,13 +1,11 @@
 import React from "react";
 import { DropTarget } from "react-dnd";
 import ItemTypes from "./ItemTypes";
-import Stencil from './Stencil';
 
 const style = {
-  width: "50rem",
-  height: "30rem",
+  width: 'inherit',
   padding: "1rem",
-  border: "1px solid #666"
+  border: "1px solid #e8e8e8"
 };
 
 const boxTarget = {
@@ -17,7 +15,6 @@ const boxTarget = {
     },
 
     drop(props, monitor) {
-        console.log(monitor.getItem());
         return { name: "Template" };
     }
 };
@@ -32,35 +29,23 @@ function collect(connect, monitor) {
 
 function Box(props){
 
-    const { stencils, onMove, connectDropTarget, isOver, canDrop } = props;
+    const { connectDropTarget, isOver, canDrop } = props;
 
     const isActive = canDrop && isOver;
-    let borderColor = "#666";
+    let borderColor = "#e8e8e8";
     
     if (isActive) {
         borderColor = "red";
     } else if (canDrop) {
-        borderColor = "#666";
+        borderColor = "#e8e8e8";
     }
-
 
     return connectDropTarget(
         <div style={{ ...style, borderColor }}>
             <h3>{ isActive ? "Release to drop" : "Drag a Card here" }</h3>
-            <div style={{ width: '400px' }}>
-                {stencils.map((stencil, i) => (
-                    <Stencil
-                        key={stencil.id}
-                        index={i}
-                        id={stencil.id}
-                        text={stencil.text}
-                        moveStencil={onMove}
-                    />
-                ))}
-            </div>
+            { props.children }
         </div>
     );
-
 }
 
 export default DropTarget(ItemTypes.CARD, boxTarget, collect)(Box);

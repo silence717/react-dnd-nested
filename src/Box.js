@@ -2,12 +2,6 @@ import React from "react";
 import { DropTarget } from "react-dnd";
 import ItemTypes from "./ItemTypes";
 
-const style = {
-  width: 'inherit',
-  padding: "1rem",
-  border: "1px solid #e8e8e8"
-};
-
 const boxTarget = {
     
     canDrop(props, monitor) {
@@ -29,7 +23,7 @@ function collect(connect, monitor) {
 
 function Box(props){
 
-    const { connectDropTarget, isOver, canDrop } = props;
+    const { connectDropTarget, isOver, canDrop, style } = props;
 
     const isActive = canDrop && isOver;
     let borderColor = "#e8e8e8";

@@ -2,18 +2,6 @@ import React from "react";
 import { DragSource } from "react-dnd";
 import ItemTypes from "./ItemTypes";
 
-const style = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: "5rem",
-    height: "2rem",
-    color: '#fff',
-    backgroundColor: "#d6d6d6",
-    borderRadius: '8px',
-    cursor: "move"
-};
-
 const cardSource = {
 
   beginDrag(props) {
@@ -44,7 +32,7 @@ function collect(connect, monitor) {
 }
 
 function Card(props) {
-  const { type, connectDragSource, isDragging } = props;
+  const { type, style, connectDragSource, isDragging } = props;
   const opacity = isDragging ? 0.4 : 1;
   const cursor = isDragging ? 'copy' : 'move';
 

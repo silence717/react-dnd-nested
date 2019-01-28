@@ -7,16 +7,34 @@ import Box from "./Box";
 import Stencil from './Stencil';
 const update = require("immutability-helper");
 
+const cardStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: "5rem",
+    height: "2rem",
+    color: '#fff',
+    backgroundColor: "#d6d6d6",
+    borderRadius: '8px',
+    cursor: "move"
+};
+
 function CardList(props) {
 
     const { cards, onAdd } = props;
     
     const cardItems = cards.map(({type}) => {
-        return <Card key={type} type={type} onAdd={onAdd} />
+        return <Card key={type} type={type} onAdd={onAdd} style={cardStyle} />
     })
     return <VGroup width="120px" padding="1rem 0" horizontalAlign="center" gap={10}>{cardItems}</VGroup>;
 }
 
+const stencilStyle = {
+    padding: "0.5rem 1rem",
+    backgroundColor: "#e8e8e8",
+    borderRadius: '5px',
+    cursor: "move"
+};
 
 function Stencils(props) {
 
@@ -31,11 +49,18 @@ function Stencils(props) {
                     id={stencil.id}
                     type={stencil.type}
                     moveStencil={onMove}
+                    style={stencilStyle}
                 />
             ))}
         </VGroup>
     );
 }
+
+const boxStyle = {
+    width: 'inherit',
+    padding: "1rem",
+    border: "1px solid #e8e8e8"
+};
 
 class App extends Component {
     
@@ -93,7 +118,7 @@ class App extends Component {
         return (
             <HGroup gap={10} style={{ width: '100%'}} >
                 <CardList cards={this.state.cards}  onAdd={this.addCard}/>
-                <Box>
+                <Box style={boxStyle}>
                     <Stencils stencils={this.state.stencils}  onMove={this.handleMove}  />
                 </Box>
             </HGroup>

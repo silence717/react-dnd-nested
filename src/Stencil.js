@@ -4,13 +4,6 @@ import { findDOMNode } from "react-dom";
 import { DropTarget, DragSource } from "react-dnd";
 import ItemTypes from "./ItemTypes";
 
-const style = {
-  padding: "0.5rem 1rem",
-  backgroundColor: "#e8e8e8",
-  borderRadius: '5px',
-  cursor: "move"
-};
-
 const stencilSource = {
   beginDrag(props) {
     return {
@@ -81,7 +74,7 @@ function getStencilByType(type) {
 }
 
 function Stencil(props) {
-  const { type, isDragging, connectDragSource, connectDropTarget } = props;
+  const { type, style, isDragging, connectDragSource, connectDropTarget } = props;
   const opacity = isDragging ? 0 : 1;
   const cursor = isDragging ? 'pointer' : 'move';
 

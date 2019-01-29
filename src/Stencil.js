@@ -1,72 +1,78 @@
-import React from "react";
-import { findDOMNode } from "react-dom";
-import { DropTarget, DragSource } from "react-dnd";
-import ItemTypes from "./ItemTypes";
+import React from 'react';
+import { findDOMNode } from 'react-dom';
+import { DropTarget, DragSource } from 'react-dnd';
+import ItemTypes from './ItemTypes';
 
 const stencilSource = {
-  beginDrag(props) {
-    return {
-      id: props.id,
-      index: props.index
-    };
-  }
+    beginDrag(props) {
+        return {
+        id: props.id,
+        index: props.index
+        };
+    }
 };
 
 function sourceCollect(connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-  };
+    return {
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
+    };
 }
 
 const stencilTarget = {
+    
+    hover(props, monitor, component) {
+        
+        if (!component) {
+            return null;
+        }
 
-  hover(props, monitor, component) {
-    if (!component) {
-      return null;
+        const dragIndex = monitor.getItem().index;
+        const hoverIndex = props.index;
+
+        const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+        const { bottom, top } = hoverBoundingRect;
+
+        const hoverMiddleY = (bottom - top) / 2;
+        const clientOffset = monitor.getClientOffset();
+        const hoverCilentY = clientOffset.y - top;
+
+        if (dragIndex < hoverIndex && hoverCilentY < hoverMiddleY) {
+            return;
+        }
+
+        if (dragIndex > hoverIndex && hoverCilentY > hoverMiddleY) {
+            return;
+        }
+
+        props.moveStencil(dragIndex, hoverIndex);
+
+        monitor.getItem().index = hoverIndex;
+    },
+
+    canDrop(props) {
+        const { canDrop } = props;
+        return typeof canDrop === 'function' ? canDrop() : true;
     }
-
-    const dragIndex = monitor.getItem().index;
-    const hoverIndex = props.index;
-
-    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
-    const { bottom, top } = hoverBoundingRect;
-
-    const hoverMiddleY = (bottom - top) / 2;
-    const clientOffset = monitor.getClientOffset();
-    const hoverCilentY = clientOffset.y - top;
-
-    if (dragIndex < hoverIndex && hoverCilentY < hoverMiddleY) {
-      return;
-    }
-
-    if (dragIndex > hoverIndex && hoverCilentY > hoverMiddleY) {
-      return;
-    }
-
-    props.moveStencil(dragIndex, hoverIndex);
-
-    monitor.getItem().index = hoverIndex;
-  }
 };
 
-function targetCollect(connect) {
+function targetCollect(connect, monitor) {
     return {
-        connectDropTarget: connect.dropTarget()
+        connectDropTarget: connect.dropTarget(),
+        canDrop: monitor.canDrop()
     };
 }
 
 function Stencil(props) {
-  
-    const { style, isDragging, connectDragSource, connectDropTarget } = props;
-    const opacity = isDragging ? 0 : 1;
-    const cursor = isDragging ? 'pointer' : 'move';
+    
+    const { style, activeStyle, isDragging, connectDragSource, connectDropTarget } = props;
+    const styles = isDragging ? { ...style, ...activeStyle } : { ...style };
 
     return connectDragSource(
-        connectDropTarget(<div style={{ ...style, opacity, cursor }}>{ props.children }</div>)
+        connectDropTarget(<div style={styles}>{props.children}</div>)
     );
 }
 
 export default DropTarget(ItemTypes.STENCIL, stencilTarget, targetCollect)(
-  DragSource(ItemTypes.STENCIL, stencilSource, sourceCollect)(Stencil)
+    DragSource(ItemTypes.STENCIL, stencilSource, sourceCollect)(Stencil)
 );

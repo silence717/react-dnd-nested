@@ -4,39 +4,41 @@ import ItemTypes from "./ItemTypes";
 
 const cardSource = {
 
-  beginDrag(props) {
-    return {
-      type: props.type
-    };
-  },
+    beginDrag(props, monitor, component) {
+        return {
+            type: props.type
+        };
+    },
 
-  endDrag(props, monitor) {
-    const item = monitor.getItem();
-    const result = monitor.getDropResult();
+    endDrag(props, monitor) {
+        
+        const item = monitor.getItem();
+        const result = monitor.getDropResult();
 
-    if (result) {
-      props.onAdd(item.type);
+        if (result) {
+            props.onEndDrag(item.type);
+        }
+    },
+
+    canDrag(props, monitor) {
+        const { canDrag } = props;
+        return typeof canDrag === 'function' ? canDrag() : true;
     }
-  },
-
-  canDrag(props, monitor) {
-      return true;
-  }
 };
 
 function collect(connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-  };
+    return {
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
+    };
 }
 
 function Card(props) {
-  const { style, connectDragSource, isDragging } = props;
-  const opacity = isDragging ? 0.4 : 1;
-  const cursor = isDragging ? 'copy' : 'move';
+    
+    const { style, connectDragSource, isDragging, activeStyle } = props;
+    const styles = isDragging ? {...style, ...activeStyle } : { ...style };
 
-  return connectDragSource(<div style={{ ...style, opacity, cursor }}>{ props.children }</div>);
+    return connectDragSource(<div style={styles}>{ props.children }</div>, { dropEffect: 'copy' });
 }
 
 export default DragSource(ItemTypes.CARD, cardSource, collect)(Card);

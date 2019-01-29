@@ -20,12 +20,16 @@ const cardStyle = {
     cursor: "move"
 };
 
+const cardActiveStyle = {
+    backgroundColor: 'highlight'
+};
+
 function CardList(props) {
 
     const { cards, onAdd } = props;
     
     const cardItems = cards.map(({type}) => {
-        return <Card key={type} type={type} onAdd={onAdd} style={cardStyle}>{type}</Card>
+        return <Card key={type} type={type} onEndDrag={onAdd} style={cardStyle} activeStyle={cardActiveStyle}>{type}</Card>
     })
     return <VGroup width="120px" padding="1rem 0" horizontalAlign="center" gap={10}>{cardItems}</VGroup>;
 }
@@ -34,7 +38,12 @@ const stencilStyle = {
     padding: "0.5rem 1rem",
     backgroundColor: "#e8e8e8",
     borderRadius: '5px',
-    cursor: "move"
+    cursor: "move",
+    opacity: 1
+};
+
+const stencilActiveStyle = {
+    opacity: 0
 };
 
 function getStencilByType(type) {
@@ -65,6 +74,7 @@ function Stencils(props) {
                     id={stencil.id}
                     moveStencil={onMove}
                     style={stencilStyle}
+                    activeStyle={stencilActiveStyle}
                 >
                 { getStencilByType(stencil.type) }
                 </Stencil>
@@ -77,6 +87,10 @@ const boxStyle = {
     width: 'inherit',
     padding: "1rem",
     border: "1px solid #e8e8e8"
+};
+
+const boxActiveStyle = {
+    border: "1px solid red"
 };
 
 class App extends Component {
@@ -135,7 +149,7 @@ class App extends Component {
         return (
             <HGroup gap={10} style={{ width: '100%'}} >
                 <CardList cards={this.state.cards}  onAdd={this.addCard}/>
-                <Box style={boxStyle}>
+                <Box style={boxStyle} activeStyle={boxActiveStyle}>
                     <Stencils stencils={this.state.stencils}  onMove={this.handleMove} />
                 </Box>
             </HGroup>

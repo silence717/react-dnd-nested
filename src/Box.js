@@ -3,40 +3,28 @@ import { DropTarget } from "react-dnd";
 import ItemTypes from "./ItemTypes";
 
 const boxTarget = {
-    
-    canDrop(props, monitor) {
-        return true;
-    },
-
-    drop(props, monitor) {
-        return { name: "Template" };
+    canDrop(props) {
+        const { canDrop } = props;
+        return typeof canDrop === 'function' ? canDrop() : true;
     }
 };
 
 function collect(connect, monitor) {
-  return {
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver(),
-    canDrop: monitor.canDrop()
-  };
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver(),
+        canDrop: monitor.canDrop()
+    };
 }
 
 function Box(props){
 
-    const { connectDropTarget, isOver, canDrop, style } = props;
-
+    const { connectDropTarget, isOver, canDrop, style, activeStyle } = props;
     const isActive = canDrop && isOver;
-    let borderColor = "#e8e8e8";
-    
-    if (isActive) {
-        borderColor = "red";
-    } else if (canDrop) {
-        borderColor = "#e8e8e8";
-    }
+    const styles = isActive ? {...style, ...activeStyle } : {...style};
 
     return connectDropTarget(
-        <div style={{ ...style, borderColor }}>
-            <h3>{ isActive ? "Release to drop" : "Drag a Card here" }</h3>
+        <div style={styles}>
             { props.children }
         </div>
     );

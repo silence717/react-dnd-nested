@@ -2,7 +2,7 @@ import React from "react";
 import { DragSource } from "react-dnd";
 import ItemTypes from "./ItemTypes";
 
-const cardSource = {
+const source = {
 
     beginDrag(props, monitor, component) {
         return {
@@ -41,4 +41,4 @@ function Card(props) {
     return connectDragSource(<div style={styles}>{ props.children }</div>, { dropEffect: 'copy' });
 }
 
-export default DragSource(ItemTypes.CARD, cardSource, collect)(Card);
+export default DragSource(ItemTypes.CARD, source, collect)(Card);

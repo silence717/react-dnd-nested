@@ -3,9 +3,9 @@ import { HGroup, VGroup } from "v-block.lite/layout";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Button, DatePicker, Input } from 'antd';
-import Card from "./Card";
-import Box from "./Box";
-import Stencil from './Stencil';
+import SourceBox from "./SourceBox";
+import TargetBox from "./TargetBox";
+import SortableBox from './SortableBox';
 const update = require("immutability-helper");
 
 const cardStyle = {
@@ -29,7 +29,7 @@ function CardList(props) {
     const { cards, onAdd } = props;
     
     const cardItems = cards.map(({type}) => {
-        return <Card key={type} type={type} onEndDrag={onAdd} style={cardStyle} activeStyle={cardActiveStyle}>{type}</Card>
+        return <SourceBox key={type} type={type} onEndDrag={onAdd} style={cardStyle} activeStyle={cardActiveStyle}>{type}</SourceBox>
     })
     return <VGroup width="120px" padding="1rem 0" horizontalAlign="center" gap={10}>{cardItems}</VGroup>;
 }
@@ -68,7 +68,7 @@ function Stencils(props) {
     return (
         <VGroup gap={10}>
             {stencils.map((stencil, i) => (
-                <Stencil
+                <SortableBox
                     key={stencil.id}
                     index={i}
                     id={stencil.id}
@@ -77,7 +77,7 @@ function Stencils(props) {
                     activeStyle={stencilActiveStyle}
                 >
                 { getStencilByType(stencil.type) }
-                </Stencil>
+                </SortableBox>
             ))}
         </VGroup>
     );
@@ -149,9 +149,9 @@ class App extends Component {
         return (
             <HGroup gap={10} style={{ width: '100%'}} >
                 <CardList cards={this.state.cards}  onAdd={this.addCard}/>
-                <Box style={boxStyle} activeStyle={boxActiveStyle}>
+                <TargetBox style={boxStyle} activeStyle={boxActiveStyle}>
                     <Stencils stencils={this.state.stencils}  onMove={this.handleMove} />
-                </Box>
+                </TargetBox>
             </HGroup>
         );
     }

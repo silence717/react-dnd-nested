@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { DropTarget, DragSource } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 
-const stencilSource = {
+const source = {
     beginDrag(props) {
         return {
         id: props.id,
@@ -19,7 +19,7 @@ function sourceCollect(connect, monitor) {
     };
 }
 
-const stencilTarget = {
+const target = {
     
     hover(props, monitor, component) {
         
@@ -73,6 +73,6 @@ function Stencil(props) {
     );
 }
 
-export default DropTarget(ItemTypes.STENCIL, stencilTarget, targetCollect)(
-    DragSource(ItemTypes.STENCIL, stencilSource, sourceCollect)(Stencil)
+export default DropTarget(ItemTypes.STENCIL, target, targetCollect)(
+    DragSource(ItemTypes.STENCIL, source, sourceCollect)(Stencil)
 );

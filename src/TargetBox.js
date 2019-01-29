@@ -2,7 +2,7 @@ import React from "react";
 import { DropTarget } from "react-dnd";
 import ItemTypes from "./ItemTypes";
 
-const boxTarget = {
+const target = {
     canDrop(props) {
         const { canDrop } = props;
         return typeof canDrop === 'function' ? canDrop() : true;
@@ -30,4 +30,4 @@ function Box(props){
     );
 }
 
-export default DropTarget(ItemTypes.CARD, boxTarget, collect)(Box);
+export default DropTarget(ItemTypes.CARD, target, collect)(Box);

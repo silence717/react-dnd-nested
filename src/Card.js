@@ -32,11 +32,11 @@ function collect(connect, monitor) {
 }
 
 function Card(props) {
-  const { type, style, connectDragSource, isDragging } = props;
+  const { style, connectDragSource, isDragging } = props;
   const opacity = isDragging ? 0.4 : 1;
   const cursor = isDragging ? 'copy' : 'move';
 
-  return connectDragSource(<div style={{ ...style, opacity, cursor }}>{type}</div>);
+  return connectDragSource(<div style={{ ...style, opacity, cursor }}>{ props.children }</div>);
 }
 
 export default DragSource(ItemTypes.CARD, cardSource, collect)(Card);

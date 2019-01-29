@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { HGroup, VGroup } from "v-block.lite/layout";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import { Button, DatePicker, Input } from 'antd';
 import Card from "./Card";
 import Box from "./Box";
 import Stencil from './Stencil';
@@ -13,8 +14,8 @@ const cardStyle = {
     justifyContent: 'center',
     width: "5rem",
     height: "2rem",
-    color: '#fff',
-    backgroundColor: "#d6d6d6",
+    color: '#3d3d3d',
+    backgroundColor: "#e8e8e8",
     borderRadius: '8px',
     cursor: "move"
 };
@@ -24,7 +25,7 @@ function CardList(props) {
     const { cards, onAdd } = props;
     
     const cardItems = cards.map(({type}) => {
-        return <Card key={type} type={type} onAdd={onAdd} style={cardStyle} />
+        return <Card key={type} type={type} onAdd={onAdd} style={cardStyle}>{type}</Card>
     })
     return <VGroup width="120px" padding="1rem 0" horizontalAlign="center" gap={10}>{cardItems}</VGroup>;
 }
@@ -35,6 +36,21 @@ const stencilStyle = {
     borderRadius: '5px',
     cursor: "move"
 };
+
+function getStencilByType(type) {
+
+    if (type === 'button') {
+        return <Button type="primary">我是一个按钮</Button>;
+    }
+
+    if (type === 'input') {
+        return <Input placeholder="请输入内容..."/>;
+    }
+
+    if (type === 'date') {
+        return <DatePicker />
+    }
+}
 
 function Stencils(props) {
 
@@ -47,10 +63,11 @@ function Stencils(props) {
                     key={stencil.id}
                     index={i}
                     id={stencil.id}
-                    type={stencil.type}
                     moveStencil={onMove}
                     style={stencilStyle}
-                />
+                >
+                { getStencilByType(stencil.type) }
+                </Stencil>
             ))}
         </VGroup>
     );
@@ -119,7 +136,7 @@ class App extends Component {
             <HGroup gap={10} style={{ width: '100%'}} >
                 <CardList cards={this.state.cards}  onAdd={this.addCard}/>
                 <Box style={boxStyle}>
-                    <Stencils stencils={this.state.stencils}  onMove={this.handleMove}  />
+                    <Stencils stencils={this.state.stencils}  onMove={this.handleMove} />
                 </Box>
             </HGroup>
         );

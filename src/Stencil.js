@@ -1,5 +1,4 @@
 import React from "react";
-import { Button, DatePicker, Input } from 'antd';
 import { findDOMNode } from "react-dom";
 import { DropTarget, DragSource } from "react-dnd";
 import ItemTypes from "./ItemTypes";
@@ -52,35 +51,20 @@ const stencilTarget = {
 };
 
 function targetCollect(connect) {
-  return {
-    connectDropTarget: connect.dropTarget()
-  };
-}
-
-function getStencilByType(type) {
-
-    if (type === 'button') {
-        return <Button type="primary">我是一个按钮</Button>;
-    }
-
-    if (type === 'input') {
-        return <Input placeholder="请输入内容..."/>;
-    }
-
-    if (type === 'date') {
-        return <DatePicker />
-    }
-   
+    return {
+        connectDropTarget: connect.dropTarget()
+    };
 }
 
 function Stencil(props) {
-  const { type, style, isDragging, connectDragSource, connectDropTarget } = props;
-  const opacity = isDragging ? 0 : 1;
-  const cursor = isDragging ? 'pointer' : 'move';
+  
+    const { style, isDragging, connectDragSource, connectDropTarget } = props;
+    const opacity = isDragging ? 0 : 1;
+    const cursor = isDragging ? 'pointer' : 'move';
 
-  return connectDragSource(
-    connectDropTarget(<div style={{ ...style, opacity, cursor }}>{ getStencilByType(type) }</div>)
-  );
+    return connectDragSource(
+        connectDropTarget(<div style={{ ...style, opacity, cursor }}>{ props.children }</div>)
+    );
 }
 
 export default DropTarget(ItemTypes.STENCIL, stencilTarget, targetCollect)(

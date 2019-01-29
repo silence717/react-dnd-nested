@@ -22,3 +22,40 @@ code {
     display: flex;
     justify-content: center;
 }
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 2rem;
+    color: #3d3d3d;
+    background-color: #e8e8e8;
+    border-radius: 8px;
+    cursor: "move"
+}
+.card-active {
+    background-color: highlight;
+}
+
+.box {
+    width: inherit;
+    padding: 1rem;
+    border: 1px solid #e8e8e8;
+}
+
+.box-active {
+    border: 1px solid red;
+}
+
+.sort-item {
+    padding: 0.5rem 1rem;
+    background-color: #e8e8e8;
+    border-radius: 5px;
+    cursor: move;
+    opacity: 1
+}
+
+.sort-item-active {
+    
+}

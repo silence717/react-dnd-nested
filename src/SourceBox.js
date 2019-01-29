@@ -35,10 +35,14 @@ function collect(connect, monitor) {
 
 function Card(props) {
     
-    const { style, connectDragSource, isDragging, activeStyle } = props;
-    const styles = isDragging ? {...style, ...activeStyle } : { ...style };
+    const { connectDragSource, isDragging, className, activeClass } = props;
 
-    return connectDragSource(<div style={styles}>{ props.children }</div>, { dropEffect: 'copy' });
+    return connectDragSource(
+            <div className={`${className} ${isDragging ? activeClass : null}`}>
+                { props.children }
+            </div>, 
+            { dropEffect: 'copy' }
+        );
 }
 
 export default DragSource(ItemTypes.CARD, source, collect)(Card);

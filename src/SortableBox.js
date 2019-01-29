@@ -65,11 +65,10 @@ function targetCollect(connect, monitor) {
 
 function Stencil(props) {
     
-    const { style, activeStyle, isDragging, connectDragSource, connectDropTarget } = props;
-    const styles = isDragging ? { ...style, ...activeStyle } : { ...style };
+    const { className, activeClass, isDragging, connectDragSource, connectDropTarget } = props;
 
     return connectDragSource(
-        connectDropTarget(<div style={styles}>{props.children}</div>)
+        connectDropTarget(<div className={`${className} ${isDragging ? activeClass : null}`}>{props.children}</div>)
     );
 }
 

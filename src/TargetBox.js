@@ -19,15 +19,14 @@ function collect(connect, monitor) {
 
 function Box(props){
 
-    const { connectDropTarget, isOver, canDrop, style, activeStyle } = props;
+    const { connectDropTarget, isOver, canDrop, className, activeClass } = props;
     const isActive = canDrop && isOver;
-    const styles = isActive ? {...style, ...activeStyle } : {...style};
 
     return connectDropTarget(
-        <div style={styles}>
-            { props.children }
-        </div>
-    );
+                <div className={`${className} ${isActive ? activeClass : null}`}>
+                    { props.children }
+                </div>
+            );
 }
 
 export default DropTarget(ItemTypes.CARD, target, collect)(Box);

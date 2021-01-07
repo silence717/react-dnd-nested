@@ -1,41 +1,35 @@
-@import '../node_modules/antd/dist/antd.css';
-
+html, body {
+    width: 100%;
+    height: 100%;
+}
 body {
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
 }
 
 #root {
     width: 100%;
     height: 100%;
-    padding: 2rem;
     display: flex;
     justify-content: center;
 }
 
-.card {
+.main {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 5rem;
-    height: 2rem;
-    color: #3d3d3d;
-    background-color: #e8e8e8;
-    border-radius: 8px;
-    cursor: "move"
+    flex-direction: row;
+    width: 100%;
 }
-.card-active {
-    background-color: highlight;
+
+.right {
+    width: calc(100% - 180px);
+    height: 100%;
+}
+
+.active {
+    background: hotpink;
 }
 
 .box {
@@ -57,5 +51,5 @@ code {
 }
 
 .sort-item-active {
-    
+    background: #71c3f9;
 }

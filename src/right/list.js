@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import Item from './item';
 
-class Tree extends Component {
+const TreeComponent = observer(class Tree extends Component {
 	render() {
 		const { parentId, items, move } = this.props;
 		return (
@@ -14,6 +15,6 @@ class Tree extends Component {
 			</>
 		);
 	}
-}
+});
 
-export default Tree;
+export default TreeComponent;

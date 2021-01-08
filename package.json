@@ -5,6 +5,8 @@
   "sideEffects": false,
   "dependencies": {
     "cloud-react": "^0.0.86",
+    "mobx": "^6.0.4",
+    "mobx-react": "^7.0.5",
     "react": "17.0.1",
     "react-dnd": "7.0.2",
     "react-dnd-html5-backend": "7.0.2",

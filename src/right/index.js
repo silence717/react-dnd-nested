@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import List from './list';
-
-export default class Right extends Component {
+const RightComponent = observer(class Right extends Component {
 
     render() {
 
@@ -12,4 +12,6 @@ export default class Right extends Component {
             </div>
         )
     }
-}
+});
+
+export default RightComponent;

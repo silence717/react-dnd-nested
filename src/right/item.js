@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
+import { observer } from 'mobx-react';
 import { DragSource, DropTarget } from 'react-dnd';
-import { Button, Icon } from 'cloud-react';
 
 import List from './list';
-import { View, Text } from './components';
+import Components from './components';
 
 const source = {
+	/**
+	 * 拖拽前为组件增加一些属性
+	 * @param {*} props
+	 */
 	beginDrag(props) {
 		const { parentId, item } = props;
 		const { id, type, childrens } = item;
@@ -18,15 +22,29 @@ const source = {
 		};
 	},
 
+	/**
+	 * 限制组件是否可拖拽
+	 * @param {*} props
+	 */
 	canDrag(props) {
 		if (props.item.id === 1) return false;
 		return true;
 	},
 
+	/**
+	 * 当前组件是否处于拖拽中
+	 * @param {*} props
+	 * @param {*} monitor
+	 */
 	isDragging(props, monitor) {
 		return props.item.id === monitor.getItem().id;
 	},
 
+	/**
+	 * 我们认为当一个组件停止拖拽时移动中的位置都是在查找合适的的位置，只有在停止的时候才是它真正想要放置的位置
+	 * @param {*} props
+	 * @param {*} monitor
+	 */
 	endDrag(props, monitor) {
 		const result = monitor.getDropResult();
 		if (result.dragItem) {
@@ -45,19 +63,24 @@ function sourceCollect(connect, monitor) {
 }
 
 const target = {
+	/**
+	 * 是否可以将拖拽的元素放置
+	 * @param {*} props
+	 * @param {*} monitor
+	 */
 	canDrop(props, monitor) {
-		// 被拖拽的组件类型
+		// 在此处可以获取到拖拽的组件类型，从而增加一些是否可以放置的条件
 		// const dragType = monitor.getItem().type;
 		// // 放置的组件类型
 		// const dropType = props.item.type;
-
-		// // SwiperItem 只可以放置在 Swiper 中
-		// if (dragType === 'SwiperItem') {
-		// 	return dropType === 'Swiper';
-		// }
 		return true;
 	},
 
+	/**
+	 * 使用drop而未使用hover是不想一直更改数据结构
+	 * @param {*} props
+	 * @param {*} monitor
+	 */
 	drop(props, monitor) {
 		const didDrop = monitor.didDrop();
 
@@ -67,13 +90,13 @@ const target = {
 
 		const { id: draggedId, parentId: dragParentId } = monitor.getItem();
 		const { parentId: overParentId } = props;
-		const { id: overId, type: overType } = props.item;
+		const { id: overId } = props.item;
 
 		if (draggedId) {
 			if (draggedId === overId || draggedId === overParentId || dragParentId === overId || overParentId === null) return undefined;
 			return {
 				dragItem: { draggedId, dragParentId },
-				overItem: { overId, overType, overParentId }
+				overItem: { overId, overParentId }
 			};
 		}
 		return { id: overId };
@@ -87,41 +110,30 @@ function targetCollect(connect, monitor) {
 		canDrop: monitor.canDrop()
 	};
 }
-
-const Components = {
-	View,
-	Text,
-	Icon,
-	Button,
-};
-
-class Item extends Component {
+const ItemComponent = observer(class Item extends Component {
 	render() {
-		const { connectDropTarget, connectDragSource, canDrop, isOver, parentId, item, move } = this.props;
+		const { connectDropTarget, connectDragSource, canDrop, isOver, item, move } = this.props;
 
 		const { id, type, childrens } = item;
 		const CurrentComponet = Components[type];
 
-		// const classes = classnames('', {
-		// 	draggable: canPlace,
-		// 	active: canDrop && isOver
-		// });
+		const classes = (canDrop && isOver) ?  'activeHover' : '';
 
 		return (
 			<CurrentComponet
 				id={id}
 				type={type}
+				className={`item ${classes}`}
 				ref={instance => {
 					// eslint-disable-next-line
 					const node = findDOMNode(instance);
 					connectDragSource(node);
 					connectDropTarget(node);
-				}}
-				>
+				}}>
 				<List parentId={id} items={childrens} move={move} />
 			</CurrentComponet>
 		);
 	}
-}
+});
 
-export default DropTarget('ITEM', target, targetCollect)(DragSource('ITEM', source, sourceCollect)(Item));
+export default DropTarget('ITEM', target, targetCollect)(DragSource('ITEM', source, sourceCollect)(ItemComponent));

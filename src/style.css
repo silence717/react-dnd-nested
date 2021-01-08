@@ -28,28 +28,10 @@ body {
     height: 100%;
 }
 
-.active {
-    background: hotpink;
-}
-
-.box {
-    width: inherit;
-    padding: 1rem;
-    border: 1px solid #e8e8e8;
-}
-
-.box-active {
-    border: 1px solid red;
-}
-
-.sort-item {
-    padding: 0.5rem 1rem;
-    background-color: #e8e8e8;
-    border-radius: 5px;
+.item {
     cursor: move;
-    opacity: 1
 }
 
-.sort-item-active {
-    background: #71c3f9;
+.activeHover {
+    border: 2px solid blueviolet !important;
 }

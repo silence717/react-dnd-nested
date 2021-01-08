@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { DragDropContext } from 'react-dnd';
-import { observer } from 'mobx-react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { observable, makeObservable, action } from 'mobx';
-import HTML5Backend from 'react-dnd-html5-backend';
 import Left from './left';
 import Right from './right';
 
@@ -31,7 +30,7 @@ function findItem(dataList, id) {
 	return result;
 }
 
-const AppComponent = observer(class App extends Component {
+class App extends Component {
 
     data = [];
 
@@ -103,11 +102,13 @@ const AppComponent = observer(class App extends Component {
     render() {
         return (
             <div className="main">
-                <Left onEndDrag={this.handleAddCard}/>
-                <Right data={this.data} moveItem={this.handleMove} />
+                <DndProvider backend={HTML5Backend}>
+                    <Left onEndDrag={this.handleAddCard}/>
+                    <Right data={this.data} moveItem={this.handleMove} />
+                </DndProvider>
             </div>
         );
     }
-});
+};
 
-export default DragDropContext(HTML5Backend)(AppComponent);
+export default App;

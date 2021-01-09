@@ -41,20 +41,20 @@ react、react-dom、mobx、mobx-react、react-dnd
 
 #### 应用主入口代码
 
-![app.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/docs/app.png)
+![app.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/images/app.png)
 #### 左侧组件使用 SourceBox 包裹
 
 基础使用，不做清晰说明，需要查看官网文章，代码如下：
 
-![left.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/docs/left.png)
+![left.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/images/left.png)
 
 新增组件的方法
 
-![add.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/docs/add.png)
+![add.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/images/add.png)
 
 在这里我们需要一个递归查找当前数据的工具方法`findItem`
 
-![findItem.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/docs/findItem.png)
+![findItem.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/images/findItem.png)
 
 #### 编辑器区域实现
 
@@ -62,22 +62,22 @@ react、react-dom、mobx、mobx-react、react-dnd
 
 ##### index.js
 
-![right.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/docs/right.png)
+![right.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/images/right.png)
 
 ##### list组件包含里面我们对当前数据进行循环，设置每一个的item
 
-![list.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/docs/list.png)
+![list.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/images/list.png)
 
 ##### item组件为核心组件，既要作为target接收组件，又需要作为source支持拖拽排序
 
-![item.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/docs/item.png)
+![item.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/images/item.png)
 
 处理move的动作：
 
-![move.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/docs/move.png)
+![move.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/images/move.png)
 
 ##### 动态效果
-![move.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/docs/move.png)
+![move.png](https://github.com/silence717/react-dnd-drag-demo/blob/master/images/move.png)
 ## 项目使用
 ```bash
 yarn install

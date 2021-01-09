@@ -86,6 +86,6 @@ yarn start
 打开浏览器，访问：[http://localhost:3000/](http://localhost:3000/)
 
 ### 本文demo展示地址  
-待完成。。。
+[react-dnd-nested](https://silence717.github.io/react-dnd-nested/)
 如果对你有帮助的话，欢迎star✨
 
